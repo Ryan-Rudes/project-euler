@@ -1,2 +1,1 @@
-# project-euler
-My Project Euler Solutions
+# Project Euler
