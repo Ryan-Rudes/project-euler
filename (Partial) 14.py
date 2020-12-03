@@ -1,47 +1,35 @@
-def update(n):
-    if n % 2 == 0:
-        return n // 2
-    else:
-        return 3 * n + 1
+T = int(input())
+N = [int(input()) for i in range(T)]
+maxN = max(N)
+chainLengths = {1:1}
 
-def chain(n, length=0):
-	global chainlength
-	
-	if n == 1:
-		return length
-	else:
-		if not n in chainlength:
-			chainlength[n] = None
-			
-		if chainlength[n] is None:
-			final = chain(update(n), length = length + 1)
-			chainlength[n] = final - length
-			return final
-		else:
-			return length + chainlength[n]
-			
-T = int(input().strip())
-N = [int(input().strip()) for i in range(T)]
-
-chainlength = {n + 1:None for n in range(max(N))}
-chainlength[1] = 0
-
-for n in range(max(N)):
-	chain(n + 1)
-	
-chainlength = [chainlength[i + 1] for i in range(max(N))]
-	
-solutions = {}
-indices = [0]
-value = chainlength[1]
-for i, e in enumerate(chainlength):
-    if e > value:
-        indices = [i]
-        value = e
-    elif e == value:
-        indices.append(i)
-        
-    solutions[i + 1] = max(indices) + 1
-    
+def updateRule(n):
+  if n % 2 == 0:
+    return n // 2
+  else:
+    return 3 * n + 1
+  
+def updateChain(n):
+  global chainLengths
+  
+  if n in chainLengths:
+    return chainLengths[n]
+  else:
+    chainLengths[n] = updateChain(updateRule(n)) + 1
+    return chainLengths[n]
+  
+for i in range(2, maxN + 1):
+  updateChain(i)
+  
+res = {}
+y = 0
+maxLength = 0
+for i in range(1, maxN + 1):
+  if chainLengths[i] >= maxLength:
+    maxLength = chainLengths[i]
+    y = i
+      
+  res[i] = y
+  
 for n in N:
-    print (solutions[n])
+  print (res[n])
