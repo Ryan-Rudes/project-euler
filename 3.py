@@ -1,17 +1,19 @@
 T = int(input().strip())
+
+def gen_factors(n):
+    yield 2
+    for i in range(3, int(n ** 0.5) + 1, 2):
+        yield i
+        
 for i in range(T):
     N = int(input().strip())
 
-    while N % 2 == 0:
-        greatestPrimeFactor = 2
-        N //= 2
-    
-    for i in range(3, int(N ** 0.5) + 1, 2):
+    for i in gen_factors(N):
         while N % i == 0:
-            greatestPrimeFactor = i
+            largest = i
             N //= i
 
     if N > 2:
-        greatestPrimeFactor = N
+        largest = N
         
-    print (greatestPrimeFactor)
+    print (largest)
