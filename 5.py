@@ -1,20 +1,15 @@
-import sys
+from math import gcd
 
-T = int(input().strip())
+lcm = lambda x, y: x * y // gcd(x, y)
+
+T = int(input())
 for i in range(T):
-    N = int(input().strip())
-    
-    num = N
-    while True:
-        divisible = True
-        for i in range(2, N + 1):
-            if num % i != 0:
-                divisible = False
-                break
-    
-        if divisible:
-            break
-        else:
-            num += 1
-        
-    print (num)
+    N = int(input())
+    if N == 1:
+        print (1)
+    else:
+        res = 2
+        for j in range(3, N + 1):
+            res = lcm(res, j)
+            
+        print (res)
